@@ -112,6 +112,8 @@ Source::Source(EW *a_ew,
    {
       mNpar = 2;
       mPar = new float_sw4[2];
+      mPar[0] = float_sw4{};
+      mPar[1] = float_sw4{};
    }
    mNipar = nipar;
    if( mNipar > 0 )
@@ -124,6 +126,7 @@ Source::Source(EW *a_ew,
    {
       mNipar = 1;
       mIpar  = new int[1];
+      mIpar[0] = 0;
    }
 
    //   if( mTimeDependence == iDiscrete || mTimeDependence == iDiscrete6moments )
