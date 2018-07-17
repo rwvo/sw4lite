@@ -17,6 +17,10 @@ optimize/
 
 optimize_cuda_surface/
 
+optimize_hip/
+
+hipsrc/
+
 debug/
 
 /debug_cuda/
