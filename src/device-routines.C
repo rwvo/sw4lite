@@ -10596,14 +10596,14 @@ void rhs4_corr_gpu (int ifirst, int ilast, int jfirst, int jlast, int kfirst, in
     rhs4_v2<1,0><<<blocks,threads,0,stream>>>
       (ifirst, ilast, jfirst, jlast, kfirst, klast,
        ni, nj, nk,
-       a_up, a_u, NULL,
+       a_up, a_u, nullptr,
        a_mu, a_lambda, a_rho, a_fo,
        a_strx, a_stry, a_strz, h, dt);
   else
     rhs4_v2<0,0><<<blocks,threads,0,stream>>>
       (ifirst, ilast, jfirst, jlast, kfirst, klast,
        ni, nj, nk,
-       a_up, a_u, NULL,
+       a_up, a_u, nullptr,
        a_mu, a_lambda, a_rho, a_fo,
        a_strx, a_stry, a_strz, h, dt);
 }
@@ -11159,14 +11159,14 @@ void rhs4_X_corr_gpu (int ifirst, int ilast, int jfirst, int jlast, int kfirst, 
     rhs4_X<1,0><<<blocks,threads,0,stream>>>
       (ifirst, ilast, jfirst, jlast, kfirst, klast,
        ni, nj, nk,
-       a_up, a_u, NULL,
+       a_up, a_u, nullptr,
        a_mu, a_lambda, a_rho, a_fo,
        a_strx, a_stry, a_strz, h, dt);
   else
     rhs4_X<0,0><<<blocks,threads,0,stream>>>
       (ifirst, ilast, jfirst, jlast, kfirst, klast,
        ni, nj, nk,
-       a_up, a_u, NULL,
+       a_up, a_u, nullptr,
        a_mu, a_lambda, a_rho, a_fo,
        a_strx, a_stry, a_strz, h, dt);
 }
@@ -11701,14 +11701,14 @@ void rhs4_Y_corr_gpu (int ifirst, int ilast, int jfirst, int jlast, int kfirst, 
     rhs4_Y<1,0><<<blocks,threads,0,stream>>>
       (ifirst, ilast, jfirst, jlast, kfirst, klast,
        ni, nj, nk,
-       a_up, a_u, NULL,
+       a_up, a_u, nullptr,
        a_mu, a_lambda, a_rho, a_fo,
        a_strx, a_stry, a_strz, h, dt);
   else
     rhs4_Y<0,0><<<blocks,threads,0,stream>>> 
       (ifirst, ilast, jfirst, jlast, kfirst, klast,
        ni, nj, nk,
-       a_up, a_u, NULL,
+       a_up, a_u, nullptr,
        a_mu, a_lambda, a_rho, a_fo,
        a_strx, a_stry, a_strz, h, dt);
 }
@@ -12289,14 +12289,14 @@ void rhs4_lowk_corr_gpu (int ifirst, int ilast, int jfirst, int jlast,
     rhs4_Kboundary<1,0,1><<<blocks,threads,0,stream>>>
       (ifirst, ilast, jfirst, jlast,
        ni, nj, nk, nz,
-       a_up, a_u, NULL,
+       a_up, a_u, nullptr,
        a_mu, a_lambda, a_rho, a_fo,
        a_strx, a_stry, h, dt);
   else
     rhs4_Kboundary<0,0,1><<<blocks,threads,0,stream>>>
       (ifirst, ilast, jfirst, jlast,
        ni, nj, nk, nz,
-       a_up, a_u, NULL,
+       a_up, a_u, nullptr,
        a_mu, a_lambda, a_rho, a_fo,
        a_strx, a_stry, h, dt);
 }
@@ -12314,14 +12314,14 @@ void rhs4_highk_corr_gpu (int ifirst, int ilast, int jfirst, int jlast,
     rhs4_Kboundary<1,0,0><<<blocks,threads,0,stream>>>
       (ifirst, ilast, jfirst, jlast,
        ni, nj, nk, nz,
-       a_up, a_u, NULL,
+       a_up, a_u, nullptr,
        a_mu, a_lambda, a_rho, a_fo,
        a_strx, a_stry, h, dt);
   else
     rhs4_Kboundary<0,0,0><<<blocks,threads,0,stream>>>
       (ifirst, ilast, jfirst, jlast,
        ni, nj, nk, nz,
-       a_up, a_u, NULL,
+       a_up, a_u, nullptr,
        a_mu, a_lambda, a_rho, a_fo,
        a_strx, a_stry, h, dt);
 }
