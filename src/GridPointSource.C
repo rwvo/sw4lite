@@ -114,6 +114,7 @@ __device__ void GridPointSource::initializeTimeFunction()
 void GridPointSource::initializeTimeFunction()
 #endif
 {
+#ifndef USE_FUNCTION_PTR_WORKAROUND
    //   if( mTimeDependence != iDiscrete )
    //      mPar[0] = m_min_exponent;
   switch(mTimeDependence)
@@ -320,7 +321,222 @@ void GridPointSource::initializeTimeFunction()
      mTimeFunc_tom = Gaussian_tom;
      mTimeFunc_omom = Gaussian_omom;
   }
+#endif // #ifndef USE_FUNCTION_PTR_WORKAROUND
 }
+
+#ifdef USE_FUNCTION_PTR_WORKAROUND
+float_sw4 GridPointSource::mTimeFunc(float_sw4 f, float_sw4 t,float_sw4* par, int npar, int* ipar, int nipar ) const
+{
+   switch(mTimeDependence){
+   case iRicker:            return  RickerWavelet(f, t ,par, npar, ipar, nipar);
+   case iGaussian:          return       Gaussian(f, t ,par, npar, ipar, nipar);
+   case iRamp:              return           Ramp(f, t ,par, npar, ipar, nipar);
+   case iTriangle:          return       Triangle(f, t ,par, npar, ipar, nipar);
+   case iSawtooth:          return       Sawtooth(f, t ,par, npar, ipar, nipar);
+   case iSmoothWave:        return     SmoothWave(f, t ,par, npar, ipar, nipar);
+   case iErf:               return            Erf(f, t ,par, npar, ipar, nipar);
+   case iVerySmoothBump:    return VerySmoothBump(f, t ,par, npar, ipar, nipar);
+   case iRickerInt:         return      RickerInt(f, t ,par, npar, ipar, nipar);
+   case iBrune:             return          Brune(f, t ,par, npar, ipar, nipar);
+   case iBruneSmoothed:     return  BruneSmoothed(f, t ,par, npar, ipar, nipar);
+   case iDBrune:            return         DBrune(f, t ,par, npar, ipar, nipar);
+   case iGaussianWindow:    return GaussianWindow(f, t ,par, npar, ipar, nipar);
+   case iLiu:               return            Liu(f, t ,par, npar, ipar, nipar);
+   case iDirac:             return          Dirac(f, t ,par, npar, ipar, nipar);
+   case iDiscrete:          return       Discrete(f, t ,par, npar, ipar, nipar);
+   case iDiscrete6moments:  return       Discrete(f, t ,par, npar, ipar, nipar);
+   case iC6SmoothBump:      return   C6SmoothBump(f, t ,par, npar, ipar, nipar);
+   default:                 return  RickerWavelet(f, t ,par, npar, ipar, nipar);
+   }
+}
+
+float_sw4 GridPointSource::mTimeFunc_t(float_sw4 f, float_sw4 t,float_sw4* par, int npar, int* ipar, int nipar ) const
+{
+   switch(mTimeDependence){
+   case iRicker:            return  RickerWavelet_t(f, t ,par, npar, ipar, nipar);
+   case iGaussian:          return       Gaussian_t(f, t ,par, npar, ipar, nipar);
+   case iRamp:              return           Ramp_t(f, t ,par, npar, ipar, nipar);
+   case iTriangle:          return       Triangle_t(f, t ,par, npar, ipar, nipar);
+   case iSawtooth:          return       Sawtooth_t(f, t ,par, npar, ipar, nipar);
+   case iSmoothWave:        return     SmoothWave_t(f, t ,par, npar, ipar, nipar);
+   case iErf:               return            Erf_t(f, t ,par, npar, ipar, nipar);
+   case iVerySmoothBump:    return VerySmoothBump_t(f, t ,par, npar, ipar, nipar);
+   case iRickerInt:         return      RickerInt_t(f, t ,par, npar, ipar, nipar);
+   case iBrune:             return          Brune_t(f, t ,par, npar, ipar, nipar);
+   case iBruneSmoothed:     return  BruneSmoothed_t(f, t ,par, npar, ipar, nipar);
+   case iDBrune:            return         DBrune_t(f, t ,par, npar, ipar, nipar);
+   case iGaussianWindow:    return GaussianWindow_t(f, t ,par, npar, ipar, nipar);
+   case iLiu:               return            Liu_t(f, t ,par, npar, ipar, nipar);
+   case iDirac:             return          Dirac_t(f, t ,par, npar, ipar, nipar);
+   case iDiscrete:          return       Discrete_t(f, t ,par, npar, ipar, nipar);
+   case iDiscrete6moments:  return       Discrete_t(f, t ,par, npar, ipar, nipar);
+   case iC6SmoothBump:      return   C6SmoothBump_t(f, t ,par, npar, ipar, nipar);
+   default:                 return  RickerWavelet_t(f, t ,par, npar, ipar, nipar);
+   }
+}
+
+float_sw4 GridPointSource::mTimeFunc_tt(float_sw4 f, float_sw4 t,float_sw4* par, int npar, int* ipar, int nipar ) const
+{
+   switch(mTimeDependence){
+   case iRicker:            return  RickerWavelet_tt(f, t ,par, npar, ipar, nipar);
+   case iGaussian:          return       Gaussian_tt(f, t ,par, npar, ipar, nipar);
+   case iRamp:              return           Ramp_tt(f, t ,par, npar, ipar, nipar);
+   case iTriangle:          return       Triangle_tt(f, t ,par, npar, ipar, nipar);
+   case iSawtooth:          return       Sawtooth_tt(f, t ,par, npar, ipar, nipar);
+   case iSmoothWave:        return     SmoothWave_tt(f, t ,par, npar, ipar, nipar);
+   case iErf:               return            Erf_tt(f, t ,par, npar, ipar, nipar);
+   case iVerySmoothBump:    return VerySmoothBump_tt(f, t ,par, npar, ipar, nipar);
+   case iRickerInt:         return      RickerInt_tt(f, t ,par, npar, ipar, nipar);
+   case iBrune:             return          Brune_tt(f, t ,par, npar, ipar, nipar);
+   case iBruneSmoothed:     return  BruneSmoothed_tt(f, t ,par, npar, ipar, nipar);
+   case iDBrune:            return         DBrune_tt(f, t ,par, npar, ipar, nipar);
+   case iGaussianWindow:    return GaussianWindow_tt(f, t ,par, npar, ipar, nipar);
+   case iLiu:               return            Liu_tt(f, t ,par, npar, ipar, nipar);
+   case iDirac:             return          Dirac_tt(f, t ,par, npar, ipar, nipar);
+   case iDiscrete:          return       Discrete_tt(f, t ,par, npar, ipar, nipar);
+   case iDiscrete6moments:  return       Discrete_tt(f, t ,par, npar, ipar, nipar);
+   case iC6SmoothBump:      return   C6SmoothBump_tt(f, t ,par, npar, ipar, nipar);
+   default:                 return  RickerWavelet_tt(f, t ,par, npar, ipar, nipar);
+   }
+}
+
+float_sw4 GridPointSource::mTimeFunc_ttt(float_sw4 f, float_sw4 t,float_sw4* par, int npar, int* ipar, int nipar ) const
+{
+   switch(mTimeDependence){
+   case iRicker:            return  RickerWavelet_ttt(f, t ,par, npar, ipar, nipar);
+   case iGaussian:          return       Gaussian_ttt(f, t ,par, npar, ipar, nipar);
+   case iRamp:              return           Ramp_ttt(f, t ,par, npar, ipar, nipar);
+   case iTriangle:          return       Triangle_ttt(f, t ,par, npar, ipar, nipar);
+   case iSawtooth:          return       Sawtooth_ttt(f, t ,par, npar, ipar, nipar);
+   case iSmoothWave:        return     SmoothWave_ttt(f, t ,par, npar, ipar, nipar);
+   case iErf:               return            Erf_ttt(f, t ,par, npar, ipar, nipar);
+   case iVerySmoothBump:    return VerySmoothBump_ttt(f, t ,par, npar, ipar, nipar);
+   case iRickerInt:         return      RickerInt_ttt(f, t ,par, npar, ipar, nipar);
+   case iBrune:             return          Brune_ttt(f, t ,par, npar, ipar, nipar);
+   case iBruneSmoothed:     return  BruneSmoothed_ttt(f, t ,par, npar, ipar, nipar);
+   case iDBrune:            return         DBrune_ttt(f, t ,par, npar, ipar, nipar);
+   case iGaussianWindow:    return GaussianWindow_ttt(f, t ,par, npar, ipar, nipar);
+   case iLiu:               return            Liu_ttt(f, t ,par, npar, ipar, nipar);
+   case iDirac:             return          Dirac_ttt(f, t ,par, npar, ipar, nipar);
+   case iDiscrete:          return       Discrete_ttt(f, t ,par, npar, ipar, nipar);
+   case iDiscrete6moments:  return       Discrete_ttt(f, t ,par, npar, ipar, nipar);
+   case iC6SmoothBump:      return   C6SmoothBump_ttt(f, t ,par, npar, ipar, nipar);
+   default:                 return  RickerWavelet_ttt(f, t ,par, npar, ipar, nipar);
+   }
+}
+
+float_sw4 GridPointSource::mTimeFunc_om(float_sw4 f, float_sw4 t,float_sw4* par, int npar, int* ipar, int nipar ) const
+{
+   switch(mTimeDependence){
+   case iRicker:            return  RickerWavelet_om(f, t ,par, npar, ipar, nipar);
+   case iGaussian:          return       Gaussian_om(f, t ,par, npar, ipar, nipar);
+   case iRamp:              return           Ramp_om(f, t ,par, npar, ipar, nipar);
+   case iTriangle:          return       Triangle_om(f, t ,par, npar, ipar, nipar);
+   case iSawtooth:          return       Sawtooth_om(f, t ,par, npar, ipar, nipar);
+   case iSmoothWave:        return     SmoothWave_om(f, t ,par, npar, ipar, nipar);
+   case iErf:               return            Erf_om(f, t ,par, npar, ipar, nipar);
+   case iVerySmoothBump:    return VerySmoothBump_om(f, t ,par, npar, ipar, nipar);
+   case iRickerInt:         return      RickerInt_om(f, t ,par, npar, ipar, nipar);
+   case iBrune:             return          Brune_om(f, t ,par, npar, ipar, nipar);
+   case iBruneSmoothed:     return  BruneSmoothed_om(f, t ,par, npar, ipar, nipar);
+   case iDBrune:            return         DBrune_om(f, t ,par, npar, ipar, nipar);
+   case iGaussianWindow:    return GaussianWindow_om(f, t ,par, npar, ipar, nipar);
+   case iLiu:               return            Liu_om(f, t ,par, npar, ipar, nipar);
+   case iDirac:             return          Dirac_om(f, t ,par, npar, ipar, nipar);
+   case iDiscrete:          return       Discrete_om(f, t ,par, npar, ipar, nipar);
+   case iDiscrete6moments:  return       Discrete_om(f, t ,par, npar, ipar, nipar);
+   case iC6SmoothBump:      return   C6SmoothBump_om(f, t ,par, npar, ipar, nipar);
+   default:                 return  RickerWavelet_om(f, t ,par, npar, ipar, nipar);
+   }
+}
+
+float_sw4 GridPointSource::mTimeFunc_omtt(float_sw4 f, float_sw4 t,float_sw4* par, int npar, int* ipar, int nipar ) const
+{
+   switch(mTimeDependence){
+   case iRicker:            return  RickerWavelet_omtt(f, t ,par, npar, ipar, nipar);
+   case iGaussian:          return       Gaussian_omtt(f, t ,par, npar, ipar, nipar);
+   case iRamp:              return           Ramp_omtt(f, t ,par, npar, ipar, nipar);
+   case iTriangle:          return       Triangle_omtt(f, t ,par, npar, ipar, nipar);
+   case iSawtooth:          return       Sawtooth_omtt(f, t ,par, npar, ipar, nipar);
+   case iSmoothWave:        return     SmoothWave_omtt(f, t ,par, npar, ipar, nipar);
+   case iErf:               return            Erf_omtt(f, t ,par, npar, ipar, nipar);
+   case iVerySmoothBump:    return VerySmoothBump_omtt(f, t ,par, npar, ipar, nipar);
+   case iRickerInt:         return      RickerInt_omtt(f, t ,par, npar, ipar, nipar);
+   case iBrune:             return          Brune_omtt(f, t ,par, npar, ipar, nipar);
+   case iBruneSmoothed:     return  BruneSmoothed_omtt(f, t ,par, npar, ipar, nipar);
+   case iDBrune:            return         DBrune_omtt(f, t ,par, npar, ipar, nipar);
+   case iGaussianWindow:    return GaussianWindow_omtt(f, t ,par, npar, ipar, nipar);
+   case iLiu:               return            Liu_omtt(f, t ,par, npar, ipar, nipar);
+   case iDirac:             return          Dirac_omtt(f, t ,par, npar, ipar, nipar);
+   case iDiscrete:          return       Discrete_omtt(f, t ,par, npar, ipar, nipar);
+   case iDiscrete6moments:  return       Discrete_omtt(f, t ,par, npar, ipar, nipar);
+   case iC6SmoothBump:      return   C6SmoothBump_omtt(f, t ,par, npar, ipar, nipar);
+   default:                 return  RickerWavelet_omtt(f, t ,par, npar, ipar, nipar);
+   }
+}
+
+float_sw4 GridPointSource::mTimeFunc_tttt(float_sw4 f, float_sw4 t,float_sw4* par, int npar, int* ipar, int nipar ) const
+{
+   switch(mTimeDependence){
+   case iVerySmoothBump:   return VerySmoothBump_tttt(f, t ,par, npar, ipar, nipar);
+   case iGaussian:         return       Gaussian_tttt(f, t ,par, npar, ipar, nipar);
+   case iDirac:            return          Dirac_tttt(f, t ,par, npar, ipar, nipar);
+   case iDiscrete:         return       Discrete_tttt(f, t ,par, npar, ipar, nipar);
+   case iDiscrete6moments: return       Discrete_tttt(f, t ,par, npar, ipar, nipar);
+   default:                return       Gaussian_tttt(f, t ,par, npar, ipar, nipar);
+   }
+}
+
+float_sw4 GridPointSource::mTimeFunc_tttom(float_sw4 f, float_sw4 t,float_sw4* par, int npar, int* ipar, int nipar ) const
+{
+   switch(mTimeDependence){
+   case iVerySmoothBump:   return VerySmoothBump_tttom(f, t ,par, npar, ipar, nipar);
+   case iGaussian:         return       Gaussian_tttom(f, t ,par, npar, ipar, nipar);
+   case iDirac:            return          Dirac_tttom(f, t ,par, npar, ipar, nipar);
+   case iDiscrete:         return       Discrete_tttom(f, t ,par, npar, ipar, nipar);
+   case iDiscrete6moments: return       Discrete_tttom(f, t ,par, npar, ipar, nipar);
+   default:                return       Gaussian_tttom(f, t ,par, npar, ipar, nipar);
+   }
+}
+
+float_sw4 GridPointSource::mTimeFunc_ttomom(float_sw4 f, float_sw4 t,float_sw4* par, int npar, int* ipar, int nipar ) const
+{
+   switch(mTimeDependence){
+   case iVerySmoothBump:   return VerySmoothBump_ttomom(f, t ,par, npar, ipar, nipar);
+   case iGaussian:         return       Gaussian_ttomom(f, t ,par, npar, ipar, nipar);
+   case iDirac:            return          Dirac_ttomom(f, t ,par, npar, ipar, nipar);
+   case iDiscrete:         return       Discrete_ttomom(f, t ,par, npar, ipar, nipar);
+   case iDiscrete6moments: return       Discrete_ttomom(f, t ,par, npar, ipar, nipar);
+   default:                return       Gaussian_ttomom(f, t ,par, npar, ipar, nipar);
+   }
+}
+
+float_sw4 GridPointSource::mTimeFunc_tom(float_sw4 f, float_sw4 t,float_sw4* par, int npar, int* ipar, int nipar ) const
+{
+   switch(mTimeDependence){
+   case iVerySmoothBump:   return VerySmoothBump_tom(f, t ,par, npar, ipar, nipar);
+   case iGaussian:         return       Gaussian_tom(f, t ,par, npar, ipar, nipar);
+   case iDirac:            return          Dirac_tom(f, t ,par, npar, ipar, nipar);
+   case iDiscrete:         return       Discrete_tom(f, t ,par, npar, ipar, nipar);
+   case iDiscrete6moments: return       Discrete_tom(f, t ,par, npar, ipar, nipar);
+   default:                return       Gaussian_tom(f, t ,par, npar, ipar, nipar);
+   }
+}
+
+float_sw4 GridPointSource::mTimeFunc_omom(float_sw4 f, float_sw4 t,float_sw4* par, int npar, int* ipar, int nipar ) const
+{
+   switch(mTimeDependence){
+   case iVerySmoothBump:   return VerySmoothBump_omom(f, t ,par, npar, ipar, nipar);
+   case iGaussian:         return       Gaussian_omom(f, t ,par, npar, ipar, nipar);
+   case iDirac:            return          Dirac_omom(f, t ,par, npar, ipar, nipar);
+   case iDiscrete:         return       Discrete_omom(f, t ,par, npar, ipar, nipar);
+   case iDiscrete6moments: return       Discrete_omom(f, t ,par, npar, ipar, nipar);
+   default:                return       Gaussian_omom(f, t ,par, npar, ipar, nipar);
+   }
+}
+
+
+#endif // #ifdef USE_FUNCTION_PTR_WORKAROUND
 
 //-----------------------------------------------------------------------
 void GridPointSource::getFxyz( float_sw4 t, float_sw4* fxyz ) const

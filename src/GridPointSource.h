@@ -108,6 +108,19 @@ public:
   float_sw4 mFreq, mT0;
 
   timeDep mTimeDependence;
+#ifdef USE_FUNCTION_PTR_WORKAROUND
+  float_sw4 mTimeFunc(float_sw4 f, float_sw4 t,float_sw4* par, int npar, int* ipar, int nipar ) const;
+  float_sw4 mTimeFunc_t(float_sw4 f, float_sw4 t,float_sw4* par, int npar, int* ipar, int nipar ) const;
+  float_sw4 mTimeFunc_tt(float_sw4 f, float_sw4 t,float_sw4* par, int npar, int* ipar, int nipar ) const;
+  float_sw4 mTimeFunc_ttt(float_sw4 f, float_sw4 t,float_sw4* par, int npar, int* ipar, int nipar ) const;
+  float_sw4 mTimeFunc_om(float_sw4 f, float_sw4 t,float_sw4* par, int npar, int* ipar, int nipar ) const;
+  float_sw4 mTimeFunc_omtt(float_sw4 f, float_sw4 t,float_sw4* par, int npar, int* ipar, int nipar ) const;
+  float_sw4 mTimeFunc_tttt(float_sw4 f, float_sw4 t,float_sw4* par, int npar, int* ipar, int nipar ) const;
+  float_sw4 mTimeFunc_tttom(float_sw4 f, float_sw4 t,float_sw4* par, int npar, int* ipar, int nipar ) const;
+  float_sw4 mTimeFunc_ttomom(float_sw4 f, float_sw4 t,float_sw4* par, int npar, int* ipar, int nipar ) const;
+  float_sw4 mTimeFunc_tom(float_sw4 f, float_sw4 t,float_sw4* par, int npar, int* ipar, int nipar ) const;
+  float_sw4 mTimeFunc_omom(float_sw4 f, float_sw4 t,float_sw4* par, int npar, int* ipar, int nipar ) const;
+#else
   float_sw4 (*mTimeFunc)(float_sw4 f, float_sw4 t,float_sw4* par, int npar, int* ipar, int nipar );
   float_sw4 (*mTimeFunc_t)(float_sw4 f, float_sw4 t,float_sw4* par, int npar, int* ipar, int nipar );
   float_sw4 (*mTimeFunc_tt)(float_sw4 f, float_sw4 t,float_sw4* par, int npar, int* ipar, int nipar );
@@ -118,8 +131,8 @@ public:
   float_sw4 (*mTimeFunc_tttom)(float_sw4 f, float_sw4 t,float_sw4* par, int npar, int* ipar, int nipar );
   float_sw4 (*mTimeFunc_ttomom)(float_sw4 f, float_sw4 t,float_sw4* par, int npar, int* ipar, int nipar );
   float_sw4 (*mTimeFunc_tom)(float_sw4 f, float_sw4 t,float_sw4* par, int npar, int* ipar, int nipar );
-   float_sw4 (*mTimeFunc_omom)(float_sw4 f, float_sw4 t,float_sw4* par, int npar, int* ipar, int nipar );
-
+  float_sw4 (*mTimeFunc_omom)(float_sw4 f, float_sw4 t,float_sw4* par, int npar, int* ipar, int nipar );
+#endif
   float_sw4* mPar;
   int* mIpar; 
   float_sw4* mdevPar; //GPU copy 
